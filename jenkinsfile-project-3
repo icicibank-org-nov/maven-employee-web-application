@@ -1,0 +1,53 @@
+node{
+    echo "The branch name is : ${env.BRANCH_NAME}"
+echo "The primary branch name is: ${env.BRANCH_IS_PRIMARY}"
+echo "The Build number is: ${env.BUILD_NUMBER}"
+echo "The display name is: ${env.BUILD_DISPLAY_NAME}"
+echo "The Job name is: ${env.JOB_NAME}"
+echo "The jenkins HD is: ${env.JENKINS_HOME}"
+echo "The workspac is: ${env.WORKSPACE}"
+echo "The jenkins url is: ${env.JENKINS_URL}"
+echo "The branch primary is: ${env.BRANCH_IS_PRIMARY}"
+echo "The change id is: ${env.CHANGE_ID}"
+echo "The change URL is: ${env.CHANGE_URL}"
+echo "The change Tittle is: ${env.CHANGE_TITLE}"
+echo "The JOB URL is: ${env.JOB_URL}"
+echo "The build url is: ${env.JOB_URL}"
+echo "The node name is: ${env.NODE_NAME}"
+echo "The executor name is: ${env.EXECUTOR_NUMBER}"
+echo "The build tag is: ${env.BUILD_TAG}"
+echo "the tag date is: ${env.TAG_DATE}"
+echo "the tag timestamp is: ${env.TAG_TIMESTAMP}"
+ 
+   
+    properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '6', daysToKeepStr: '', numToKeepStr: '6')), [$class: 'JobLocalConfiguration', changeReasonComment: ''], pipelineTriggers([pollSCM('* * * * *')])])
+   
+   jacoco deltaBranchCoverage: '80', deltaClassCoverage: '80', deltaComplexityCoverage: '80', deltaInstructionCoverage: '80', deltaLineCoverage: '80', deltaMethodCoverage: '80', maximumBranchCoverage: '80', maximumClassCoverage: '80', maximumComplexityCoverage: '80', maximumInstructionCoverage: '80', maximumLineCoverage: '80', maximumMethodCoverage: '80', minimumBranchCoverage: '80', minimumClassCoverage: '80', minimumComplexityCoverage: '80', minimumInstructionCoverage: '80', minimumLineCoverage: '80', minimumMethodCoverage: '80'
+ 
+     def mavenHome = tool name :"maven.3.8.6"
+    stage('checkoutcode'){
+        git credentialsId: 'a3cc0927-12e4-4932-8f53-fb3e92fe4e8b', url: 'https://github.com/icicibank-org-nov/maven-employee-web-application.git'
+    }
+
+    stage('Building the package'){
+        sh "${mavenHome}/bin/mvn clean package"
+    }
+    
+    stage('Executing the sonarqube report'){
+        sh "${mavenHome}/bin/mvn clean sonar:sonar"
+    }
+
+    stage('upload the artifact'){
+        sh "${mavenHome}/bin/mvn clean deploy"
+    }
+
+    stage('Deploy the APP into server'){
+        sshagent(['9f8d80c7-78a0-4d84-8eb9-bd9685a0a9bf']) {
+            sh "scp -o StrictHostKeyChecking=no target/employee-application.war ec2-user@172.31.32.229:/opt/apache-tomcat-9.0.70/webapps "
+    }
+    }
+}
+
+
+
+
