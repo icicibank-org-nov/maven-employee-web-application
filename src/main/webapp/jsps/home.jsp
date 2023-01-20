@@ -9,7 +9,7 @@
 </head>
 </head>
 <body>
-<h1 align="center">Welcome to DevOps Class</h1>
+<h1 align="center">Welcome to lokesh DevOps Class</h1>
 <h1 align="center"> Google is a Outsourcing, Consulting, Service, and Product Development Company</h1>
 <hr>
 <div style="text-align: center;">
@@ -17,11 +17,11 @@
 		<img src="images/" alt="" width="100">
 	</span -->
 	<span style="font-weight: bold;">
-		DevOps Made Easy,
+		DevOps lokesh Made Easy,
 		Bangalore,
-		devopsmadeeasy@outlook.com
+		lokesh@outlook.com
 		<br>
-		<a href="mailto:devopsmadeeasy@outlook.com">Mail to DevOps Made Easy</a>
+		<a href="mailto:devopsmadeeasy@outlook.com">Mail to DevOps lokesh Made Easy</a>
 	</span>
 </div>
 <hr>
