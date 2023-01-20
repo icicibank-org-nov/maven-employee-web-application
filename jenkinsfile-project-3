@@ -18,7 +18,8 @@ echo "The executor name is: ${env.EXECUTOR_NUMBER}"
 echo "The build tag is: ${env.BUILD_TAG}"
 echo "the tag date is: ${env.TAG_DATE}"
 echo "the tag timestamp is: ${env.TAG_TIMESTAMP}"
- 
+
+properties([[$class: 'JobLocalConfiguration', changeReasonComment: ''], pipelineTriggers([githubPush()])])
    
     properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '6', daysToKeepStr: '', numToKeepStr: '6')), [$class: 'JobLocalConfiguration', changeReasonComment: ''], pipelineTriggers([pollSCM('* * * * *')])])
    
